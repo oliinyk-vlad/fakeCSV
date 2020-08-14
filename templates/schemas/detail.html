@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block body_base %}
+    <div class="container my-4">
+        <div class="row justify-content-between">
+            <h2>Data Sets</h2>
+            {% load crispy_forms_tags %}
+            <form method="post">
+                <div class="form-row align-items-center">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="ml-2 mt-3 btn btn-primary">Generate Data</button>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dataset in object.datasets.all %}
+                    <tr>
+                        <th scope="row">{{ dataset.id }}</th>
+                        <td>{{ dataset.created }}</td>
+                        <td><h5><span class="badge
+                            {% if dataset.status == 'processing' %}
+                            badge-secondary
+                            {% elif dataset.status == 'ready' %}
+                            badge-success
+                            {% endif %}">
+                        {{ dataset.get_status_display }}</span></h5>
+                        </td>
+                        <td>{% if dataset.file %}<a href="{{ dataset.file.url }}" download>Download</a>{% endif %}</td>
+                    </tr>
+                {% empty %}
+                    <tr>No datasets yet.</tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

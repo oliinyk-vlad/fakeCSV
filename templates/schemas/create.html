@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}New Schema{% endblock %}
+
+{% block body_base %}
+    <div class="container">
+        <div class="card mt-4">
+            <div class="card-header">
+                Create schema
+            </div>
+            <div class="card-body">
+                {% load crispy_forms_tags %}
+                {% crispy form %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
