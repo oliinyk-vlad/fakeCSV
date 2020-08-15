@@ -19,10 +19,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ORIGIN_WHITELIST = (
-    'https://fake-csv.s3.amazonaws.com',
-    'https://fake-csv.herokuapp.com/'
-)
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 

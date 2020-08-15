@@ -5,7 +5,7 @@ from django.core.files.base import ContentFile
 from io import StringIO
 
 from schemas.models import DataSet
-from schemas.common import DataNotFound, generate_row, generate_unreadable_row
+from schemas.common import generate_field
 
 import csv
 
@@ -23,11 +23,7 @@ def generate_file(dataset_id):
                             quotechar=dataset.schema.string_character)
     writer.writeheader()
     for _ in range(dataset.rows):
-        try:
-            row = generate_row()
-        except DataNotFound:
-            row = generate_unreadable_row()
-        writer.writerow({field: row.get(field) for field in fieldnames})
+        writer.writerow({field: generate_field(field) for field in fieldnames})
 
     csv_file = ContentFile(csv_buffer.getvalue().encode('utf-8'))
 
